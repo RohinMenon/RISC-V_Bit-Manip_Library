@@ -89,7 +89,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
     dut._log.info("*******************************************************")
     dut._log.info("------------- Test %r of RV%d starts --------------" %(instr_name,XLEN))
     dut._log.info("*******************************************************")
-    for i in range (num_of_tests):
+    for i in range (2):
         rs1 = random.randint(0,(2**XLEN)-1) 
         rs2 = random.randint(0,(2**XLEN)-1)
         rm_result = bbox_rm(instr, rs1, rs2, XLEN)
@@ -109,17 +109,21 @@ tf = TestFactory(TB)
 base = 'RV64'
 #To run tests for RV32, change base = 'RV32'
 
+test_instr32 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0)]
+
+test_instr64 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0)]
+
 #generates tests for instructions of RV32
 if base == 'RV32':
     tf.add_option('XLEN', [32])
-    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0)])
+    tf.add_option(('instr','instr_name','single_opd'), [(0b0100000_111_0110011, 'addn', 0)])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 
 #generates tests for instructions of RV64
 elif base == 'RV64':
     tf.add_option('XLEN', [64])
-    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0)])
+    tf.add_option(('instr','instr_name','single_opd'), [(0b0100000_100_0110011,'xnor',0)])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 
