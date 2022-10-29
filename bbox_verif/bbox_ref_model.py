@@ -39,7 +39,30 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = int(bin(((1 << XLEN) - 1) & res),2)
         valid = '1'
 
+    # Count leading zero bits
+    elif instr == 0b0110000_00000_001_0010011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+        res = (rs1+'1').index('1')
+        valid = '1'
 
+    # Count leading zero bits in word
+    elif instr == 0b0110000_00000_001_0011011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)[-32:]
+        res = (rs1+'1').index('1')
+        valid = '1'
+
+    # Count trailing zero bits
+    elif instr == 0b0110000_00001_001_0010011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+        res = XLEN-('1'+rs1).rindex('1')
+        valid = '1'
+
+    # Count trailing zero bits in word
+    elif instr == 0b0110000_00001_001_0011011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)[-32:]
+        res = 32-('1'+rs1).rindex('1')
+        valid = '1'
+    
     ## logic for all other instr ends
     else:
         res = 0
