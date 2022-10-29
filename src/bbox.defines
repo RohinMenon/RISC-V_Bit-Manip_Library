@@ -14,3 +14,8 @@ Details: Has the macros used for instruction comparison
 `define ANDN 'b0100000_111_0110011
 `define ORN  'b0100000_110_0110011
 `define XNOR 'b0100000_100_0110011
+
+`define CLZ 'b0110000_00000_001_0010011
+`define CLZW 'b0110000_00000_001_0011011
+`define CTZ 'b0110000_00001_001_0010011
+`define CTZW 'b0110000_00001_001_0011011
