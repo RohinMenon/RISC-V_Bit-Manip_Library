@@ -36,3 +36,15 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs1);
   Bit#(XLEN) res = pack(zeroExtend(countZerosLSB(rs1[31:0])));
   return res;
 endfunction
+
+// Count set bits
+function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(zeroExtend(countOnes(rs1)));
+  return res;
+endfunction
+
+// Count set bits in word
+function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(zeroExtend(countOnes(rs1[31:0])));
+  return res;
+endfunction

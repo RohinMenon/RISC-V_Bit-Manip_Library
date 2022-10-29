@@ -63,6 +63,16 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = 32-('1'+rs1).rindex('1')
         valid = '1'
     
+    # Count set bits
+    elif instr == 0b0110000_00010_001_0010011:
+        res = bin(rs1)[2:].zfill(XLEN).count("1")
+        valid = '1'
+
+    # Count set bits in word
+    elif instr == 0b0110000_00010_001_0011011:
+        res = bin(rs1)[2:].zfill(XLEN)[-32:].count("1")
+        valid = '1'
+    
     ## logic for all other instr ends
     else:
         res = 0

@@ -109,10 +109,12 @@ tf = TestFactory(TB)
 base = 'RV64' #Set as RV64 or RV32
 
 test_instr32 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0),
-                (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00001_001_0010011,'ctz',1)]
+                (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00001_001_0010011,'ctz',1),
+                (0b0110000_00010_001_0010011,'cpop',1)]
 
 test_instr64 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0),
-                (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00000_001_0011011,'clzw',1),(0b0110000_00001_001_0010011,'ctz',1),(0b0110000_00001_001_0011011,'ctzw',1)]
+                (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00000_001_0011011,'clzw',1),(0b0110000_00001_001_0010011,'ctz',1),(0b0110000_00001_001_0011011,'ctzw',1),
+                (0b0110000_00010_001_0010011,'cpop',1),(0b0110000_00010_001_0011011,'cpopw',1)]
 
 #generates tests for instructions of RV32
 if base == 'RV32':
@@ -123,7 +125,7 @@ if base == 'RV32':
 #generates tests for instructions of RV64
 elif base == 'RV64':
     tf.add_option('XLEN', [64])
-    tf.add_option(('instr','instr_name','single_opd'), test_instr64)
+    tf.add_option(('instr','instr_name','single_opd'), [(0b0110000_00010_001_0011011,'cpopw',1)])
 
 #for each instruction below line generates 10 test vectors, can change to different no.
 tf.add_option('num_of_tests',[10])

@@ -19,3 +19,6 @@ Details: Has the macros used for instruction comparison
 `define CLZW 'b0110000_00000_001_0011011
 `define CTZ 'b0110000_00001_001_0010011
 `define CTZW 'b0110000_00001_001_0011011
+
+`define CPOP 'b0110000_00010_001_0010011
+`define CPOPW 'b0110000_00010_001_0011011
