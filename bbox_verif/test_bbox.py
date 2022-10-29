@@ -92,6 +92,8 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
     for i in range (num_of_tests):
         rs1 = random.randint(0,(2**XLEN)-1) 
         rs2 = random.randint(0,(2**XLEN)-1)
+        # rs1 = 0xd6267543aba72e4c
+        # rs2 = 0x9e5f3c30599df82f
         rm_result = bbox_rm(instr, rs1, rs2, XLEN)
     
         await input_driver(dut, instr, rs1, rs2, single_opd)
@@ -111,7 +113,7 @@ base = 'RV64' #Set as RV64 or RV32
 test_instr32 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0),
                 (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00001_001_0010011,'ctz',1)]
 
-test_instr64 = [(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0),
+test_instr64 = [(0b0000100_000_0111011, 'adduw',0),(0b0100000_111_0110011, 'addn', 0),(0b0100000_110_0110011,'orn',0),(0b0100000_100_0110011,'xnor',0),
                 (0b0110000_00000_001_0010011,'clz',1),(0b0110000_00000_001_0011011,'clzw',1),(0b0110000_00001_001_0010011,'ctz',1),(0b0110000_00001_001_0011011,'ctzw',1)]
 
 #generates tests for instructions of RV32

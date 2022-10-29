@@ -18,8 +18,15 @@ Note - if instr has single operand, take rs1 as an operand
 #Reference model
 def bbox_rm(instr, rs1, rs2, XLEN):
     
+    # ADD unsigned word
+    if instr == 0b0000100_000_0111011:
+        res = rs2 + (rs1 & int(bin((1 << 32) - 1),2))
+        # Overflow condition
+        # res = int(bin(((1 << XLEN) - 1) & res),2)
+        valid = '1'
+
     # AND with inverted operand
-    if instr == 0b0100000_111_0110011:
+    elif instr == 0b0100000_111_0110011:
         res = rs1 & ~rs2
         # Overflow condition
         res = int(bin(((1 << XLEN) - 1) & res),2)
