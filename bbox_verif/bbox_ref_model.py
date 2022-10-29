@@ -18,16 +18,26 @@ Note - if instr has single operand, take rs1 as an operand
 #Reference model
 def bbox_rm(instr, rs1, rs2, XLEN):
     
-    if instr == 1:
+    # AND with inverted operand
+    if instr == 0b0100000_111_0110011:
         res = rs1 & ~rs2
+        # Overflow condition
+        res = int(bin(((1 << XLEN) - 1) & res),2)
         valid = '1'
-    ## logic for all other instr starts 
 
-    ##elif instr == 2:
+    # OR with inverted operand
+    elif instr == 0b0100000_110_0110011:
+        res = rs1 | ~rs2
+        # Overflow condition
+        res = int(bin(((1 << XLEN) - 1) & res),2)
+        valid = '1'
 
-
-
-
+    # Exclusive NOR
+    elif instr == 0b0100000_100_0110011:
+        res = ~(rs1 ^ rs2)
+        # Overflow condition
+        res = int(bin(((1 << XLEN) - 1) & res),2)
+        valid = '1'
 
 
     ## logic for all other instr ends

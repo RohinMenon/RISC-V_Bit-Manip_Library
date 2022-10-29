@@ -38,6 +38,17 @@ function BBoxOutput fn_compute(BBoxInput inp);
       result = fn_andn(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `ORN: begin
+      result = fn_orn(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `XNOR: begin
+      result = fn_xnor(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;
