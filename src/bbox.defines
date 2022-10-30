@@ -15,6 +15,7 @@ Details: Has the macros used for instruction comparison
 `define SH1ADD 'b0010000_010_0110011
 `define SH1ADDUW 'b0010000_010_0111011
 `define SH2ADD 'b0010000_100_0110011
+`define SH2ADDUW 'b0010000_100_0111011
 
 `define ANDN 'b0100000_111_0110011
 `define ORN  'b0100000_110_0110011

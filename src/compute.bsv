@@ -54,6 +54,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `SH2ADDUW: begin
+      result = fn_sh2adduw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
     `ANDN: begin
       result = fn_andn(inp.rs1, inp.rs2);
       valid = True;

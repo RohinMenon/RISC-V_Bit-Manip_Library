@@ -25,7 +25,7 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = res - (1 << 64)
         valid = '1'
     
-    # SHFT left and add 1
+    # SHFT left and add
     elif instr == 0b0010000_010_0110011:
         tmp = (rs1 << 1)
         if(int(bin((1 << XLEN) & tmp),2)):
@@ -35,7 +35,7 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = res - (1 << XLEN)
         valid = '1'
     
-    # SHFT left uw and add 1
+    # SHFT left uw and add
     elif instr == 0b0010000_010_0111011:
         tmp = (rs1 & int(bin((1 << 32) - 1),2))
         tmp = (tmp << 1)
@@ -45,13 +45,23 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = res - (1 << XLEN)
         valid = '1'
 
-    # SHFT left 2 places and add 1
+    # SHFT left 2 places and add
     elif instr == 0b0010000_100_0110011:
         tmp = (rs1 << 2)
         if(int(bin((1 << (XLEN+1)) & tmp),2)):
             tmp = tmp - (1 << (XLEN+1))
         if(int(bin((1 << XLEN) & tmp),2)):
             tmp = tmp - (1 << XLEN)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
+    # SHFT left 2 places uw and add
+    elif instr == 0b0010000_100_0111011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        tmp = (tmp << 2)
 
         res = rs2 + tmp
         if(int(bin((1 << XLEN) & res),2)):
