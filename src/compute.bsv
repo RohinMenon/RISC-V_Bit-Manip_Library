@@ -184,6 +184,36 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `BINV: begin
+      result = fn_binv(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BINVI32: begin
+      result = fn_binvi32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BINVI64: begin
+      result = fn_binvi64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
+    `BSET: begin
+      result = fn_bset(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BSETI32: begin
+      result = fn_bseti32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BSETI64: begin
+      result = fn_bseti64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;

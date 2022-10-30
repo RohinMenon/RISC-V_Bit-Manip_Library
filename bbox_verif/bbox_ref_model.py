@@ -269,6 +269,42 @@ def bbox_rm(instr, rs1, rs2, XLEN):
 
         valid = '1'
 
+    # BINV
+    elif instr == 0b0110100_001_0110011:
+        res = rs1 ^ (1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BINVI32
+    elif instr == 0b0110100_001_0010011:
+        res = rs1 ^ (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
+    # BINVI64
+    elif instr == 0b011010_001_0010011:
+        res = rs1 ^ (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BSET
+    elif instr == 0b0010100_001_0110011:
+        res = rs1 | (1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BSETI32
+    elif instr == 0b0010100_001_0010011:
+        res = rs1 | (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
+    # BSETI64
+    elif instr == 0b001010_001_0010011:
+        res = rs1 | (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
     # logic for all other instr ends
     else:
         res = 0
