@@ -28,21 +28,21 @@ def bbox_rm(instr, rs1, rs2, XLEN):
     # AND with inverted operand
     elif instr == 0b0100000_111_0110011:
         res = rs1 & ~rs2
-        # Overflow condition
+        # For DUT output
         res = int(bin(((1 << XLEN) - 1) & res),2)
         valid = '1'
 
     # OR with inverted operand
     elif instr == 0b0100000_110_0110011:
         res = rs1 | ~rs2
-        # Overflow condition
+        # For DUT output
         res = int(bin(((1 << XLEN) - 1) & res),2)
         valid = '1'
 
     # Exclusive NOR
     elif instr == 0b0100000_100_0110011:
         res = ~(rs1 ^ rs2)
-        # Overflow condition
+        # For DUT output
         res = int(bin(((1 << XLEN) - 1) & res),2)
         valid = '1'
 
@@ -70,7 +70,59 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = 32-('1'+rs1).rindex('1')
         valid = '1'
     
-    ## logic for all other instr ends
+    # Count set bits
+    elif instr == 0b0110000_00010_001_0010011:
+        res = bin(rs1)[2:].zfill(XLEN).count("1")
+        valid = '1'
+
+    # Count set bits in word
+    elif instr == 0b0110000_00010_001_0011011:
+        res = bin(rs1)[2:].zfill(XLEN)[-32:].count("1")
+        valid = '1'
+    
+    # Maximum
+    elif instr == 0b0000101_110_0110011:
+        s1 = ((rs1 >> (XLEN-1)) & 1)
+        s2 = ((rs2 >> (XLEN-1)) & 1)
+
+        x1 = ((-1)**s1) * ((((2**XLEN - (0^s1))^rs1)+s1) & (2**XLEN-1))
+        x2 = ((-1)**s2) * ((((2**XLEN - (0^s2))^rs2)+s2) & (2**XLEN-1))
+
+        res = max(x1,x2)
+        # For DUT output
+        res = int(bin(((1 << XLEN) - 1) & res),2)
+        valid = '1'
+    
+    # Unsigned Maximum
+    elif instr == 0b0000101_111_0110011:
+        # To unsigned
+        rs1 = int(bin(((1 << XLEN) - 1) & rs1),2)
+        rs2 = int(bin(((1 << XLEN) - 1) & rs2),2)
+        res = max(rs1,rs2)
+        valid = '1'
+
+    # Minimum
+    elif instr == 0b0000101_100_0110011:
+        s1 = ((rs1 >> (XLEN-1)) & 1)
+        s2 = ((rs2 >> (XLEN-1)) & 1)
+
+        x1 = ((-1)**s1) * ((((2**XLEN - (0^s1))^rs1)+s1) & (2**XLEN-1))
+        x2 = ((-1)**s2) * ((((2**XLEN - (0^s2))^rs2)+s2) & (2**XLEN-1))
+
+        res = min(x1,x2)
+        # For DUT output
+        res = int(bin(((1 << XLEN) - 1) & res),2)
+        valid = '1'
+
+    # Unsigned Minimum
+    elif instr == 0b0000101_101_0110011:
+        # To unsigned
+        rs1 = int(bin(((1 << XLEN) - 1) & rs1),2)
+        rs2 = int(bin(((1 << XLEN) - 1) & rs2),2)
+        res = min(rs1,rs2)
+        valid = '1'
+
+    # logic for all other instr ends
     else:
         res = 0
         valid = '0'
@@ -81,4 +133,4 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         result = '{:064b}'.format(res)
 
     return valid+result
-
+    

@@ -36,3 +36,41 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs1);
   Bit#(XLEN) res = pack(zeroExtend(countZerosLSB(rs1[31:0])));
   return res;
 endfunction
+
+// Count set bits
+function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(zeroExtend(countOnes(rs1)));
+  return res;
+endfunction
+
+// Count set bits in word
+function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(zeroExtend(countOnes(rs1[31:0])));
+  return res;
+endfunction
+
+// Maximum
+function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  Int#(XLEN) s1 = unpack(rs1);
+  Int#(XLEN) s2 = unpack(rs2);
+  Bit#(XLEN) res = pack(max(s1,s2));
+  return res;
+endfunction
+
+// Unsigned Maximum
+function Bit#(XLEN) fn_maxu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  return max(rs1,rs2);
+endfunction
+
+// Minimum
+function Bit#(XLEN) fn_min(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  Int#(XLEN) s1 = unpack(rs1);
+  Int#(XLEN) s2 = unpack(rs2);
+  Bit#(XLEN) res = pack(min(s1,s2));
+  return res;
+endfunction
+
+// Unsigned Minimum
+function Bit#(XLEN) fn_minu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  return min(rs1,rs2);
+endfunction

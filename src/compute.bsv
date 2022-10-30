@@ -74,6 +74,36 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `CPOP: begin
+      result = fn_cpop(inp.rs1);
+      valid = True;
+    end
+
+    `CPOPW: begin
+      result = fn_cpopw(inp.rs1);
+      valid = True;
+    end
+
+    `MAX: begin
+      result = fn_max(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `MAXU: begin
+      result = fn_maxu(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `MIN: begin
+      result = fn_min(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `MINU: begin
+      result = fn_minu(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;
