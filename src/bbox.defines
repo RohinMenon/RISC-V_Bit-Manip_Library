@@ -38,3 +38,4 @@ Details: Has the macros used for instruction comparison
 `define MINU 'b0000101_101_0110011
 
 `define CLMUL 'b0000101_001_0110011
+`define CLMULH 'b0000101_011_0110011
