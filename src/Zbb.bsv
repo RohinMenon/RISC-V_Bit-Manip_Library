@@ -74,3 +74,21 @@ endfunction
 function Bit#(XLEN) fn_minu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return min(rs1,rs2);
 endfunction
+
+// Sign-extend byte
+function Bit#(XLEN) fn_sextb(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(signExtend(rs1[7:0]));
+  return res;
+endfunction
+
+// Sign-extend halfword
+function Bit#(XLEN) fn_sexth(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(signExtend(rs1[15:0]));
+  return res;
+endfunction
+
+// Zero-extend halfword
+function Bit#(XLEN) fn_zexth(Bit#(XLEN) rs1);
+  Bit#(XLEN) res = pack(zeroExtend(rs1[15:0]));
+  return res;
+endfunction

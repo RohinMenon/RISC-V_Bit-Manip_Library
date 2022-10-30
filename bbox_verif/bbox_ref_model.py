@@ -121,6 +121,23 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         rs2 = int(bin(((1 << XLEN) - 1) & rs2),2)
         res = min(rs1,rs2)
         valid = '1'
+    
+    # Signed Extend Byte
+    elif instr == 0b0110000_00100_001_0010011:
+        sign = str((rs1 >> 7) & 1)
+        res = int(bin(rs1)[-8:].rjust(XLEN,sign),2)
+        valid = '1'
+    
+    # Signed Extend Halfword
+    elif instr == 0b0110000_00101_001_0010011:
+        sign = str((rs1 >> 15) & 1)
+        res = int(bin(rs1)[-16:].rjust(XLEN,sign),2)
+        valid = '1'
+    
+    # Zero Extend Halfword
+    elif instr == 0b0000100_00000_100_0111011:
+        res = int(bin(rs1)[-16:].zfill(XLEN),2)
+        valid = '1'
 
     # logic for all other instr ends
     else:

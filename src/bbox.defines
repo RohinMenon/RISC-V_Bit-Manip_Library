@@ -29,3 +29,7 @@ Details: Has the macros used for instruction comparison
 `define MAXU 'b0000101_111_0110011
 `define MIN 'b0000101_100_0110011
 `define MINU 'b0000101_101_0110011
+
+`define SEXTB 'b0110000_00100_001_0010011
+`define SEXTH 'b0110000_00101_001_0010011
+`define ZEXTH 'b0000100_00000_100_0111011
