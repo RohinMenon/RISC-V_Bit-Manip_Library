@@ -92,6 +92,8 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
     for i in range (num_of_tests):
         rs1 = random.randint(0,(2**XLEN)-1) 
         rs2 = random.randint(0,(2**XLEN)-1)
+        # rs1 = 0xd6267543aba72e4c
+        # rs2 = 0x9e5f3c30599df82f
         rm_result = bbox_rm(instr, rs1, rs2, XLEN)
     
         await input_driver(dut, instr, rs1, rs2, single_opd)
