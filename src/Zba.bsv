@@ -32,3 +32,8 @@ endfunction
 function Bit#(XLEN) fn_sh3adduw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return rs2 + (zeroExtend(rs1[31:0]) << 3);
 endfunction
+
+// SHFT left shamt places unsigned word
+function Bit#(XLEN) fn_slliuw(Bit#(XLEN) rs1, Bit#(6) shamt);
+  return (zeroExtend(rs1[31:0]) << shamt);
+endfunction

@@ -69,6 +69,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `SLLIUW: begin
+      result = fn_slliuw(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
     `ANDN: begin
       result = fn_andn(inp.rs1, inp.rs2);
       valid = True;

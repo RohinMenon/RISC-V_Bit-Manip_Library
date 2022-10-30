@@ -92,6 +92,16 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         if(int(bin((1 << XLEN) & res),2)):
             res = res - (1 << XLEN)
         valid = '1'
+    
+    # SHFT left shamt places uw
+    elif instr == 0b000010_001_0011011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        res = (tmp << 0)
+        
+        for ic in range(33,0):
+            if(int(bin((1 << ic) & res),2)):
+                res = res - (1 << ic)
+        valid = '1'
 
     # AND with inverted operand
     elif instr == 0b0100000_111_0110011:
