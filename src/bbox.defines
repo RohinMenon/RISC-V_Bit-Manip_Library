@@ -40,3 +40,6 @@ Details: Has the macros used for instruction comparison
 `define RORI 'b0110000_101_0010011
 `define RORIW 'b0110000_101_0011011
 `define RORW 'b0110000_101_0111011
+
+`define ORCB 'b001010000111_101_0010011
+`define REV8 'b011010011000_101_0010011

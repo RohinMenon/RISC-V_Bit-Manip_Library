@@ -198,6 +198,20 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = rs1[-shift:]+rs1[:-shift]
         res = int(res.rjust(XLEN,res[-32]),2)
         valid = '1'
+    
+     # Bitwise OR-Combine, byte granule
+    elif instr == 0b001010000111_101_0010011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+        res = "".join([str(int('1' in rs1[i:i+8]))*8 for i in range(0, len(rs1), 8)])
+        res = int(res,2)
+        valid = '1'
+    
+    # Byte-reverse register
+    elif instr == 0b011010011000_101_0010011:
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+        res = "".join(reversed([rs1[i:i+8] for i in range(0, len(rs1), 8)]))
+        res = int(res,2)
+        valid = '1'
 
     # logic for all other instr ends
     else:
