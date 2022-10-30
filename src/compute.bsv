@@ -159,6 +159,16 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `BCLRI32: begin
+      result = fn_bclri32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BCLRI64: begin
+      result = fn_bclri64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;
