@@ -222,6 +222,17 @@ def bbox_rm(instr, rs1, rs2, XLEN):
 
         valid = '1'
 
+    # CLMULR
+    elif instr == 0b0000101_010_0110011:
+        tmp = 0
+        for ib in range(0,XLEN):
+            if(rs2 & int(bin((1 << ib)),2)):
+                tmp ^= (rs1 >> (XLEN-ib-1))
+
+        res = tmp
+
+        valid = '1'
+
     # logic for all other instr ends
     else:
         res = 0
