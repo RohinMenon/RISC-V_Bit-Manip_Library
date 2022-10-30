@@ -232,6 +232,12 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = tmp
 
         valid = '1'
+    
+    # BCLR
+    elif instr == 0b0100100_001_0110011:
+        res = rs1 & ~(1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
 
     # logic for all other instr ends
     else:

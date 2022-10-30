@@ -40,3 +40,5 @@ Details: Has the macros used for instruction comparison
 `define CLMUL 'b0000101_001_0110011
 `define CLMULH 'b0000101_011_0110011
 `define CLMULR 'b0000101_010_0110011
+
+`define BCLR 'b0100100_001_0110011

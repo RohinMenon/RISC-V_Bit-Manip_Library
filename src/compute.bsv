@@ -15,7 +15,7 @@ import bbox_types :: *;
 `include "Zba.bsv"
 `include "Zbb.bsv"
 `include "Zbc.bsv"
-//`include "Zbs.bsv"
+`include "Zbs.bsv"
 /*********************/
 
 
@@ -151,6 +151,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
     `CLMULR: begin
       result = fn_clmulr(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BCLR: begin
+      result = fn_bclr(inp.rs1, inp.rs2);
       valid = True;
     end
 
