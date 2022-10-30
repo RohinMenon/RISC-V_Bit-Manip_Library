@@ -169,6 +169,21 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `BEXT: begin
+      result = fn_bext(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BEXTI32: begin
+      result = fn_bexti32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BEXTI64: begin
+      result = fn_bexti64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;

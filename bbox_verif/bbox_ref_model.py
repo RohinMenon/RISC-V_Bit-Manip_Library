@@ -250,6 +250,24 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = rs1 & ~(1 << (0 & (XLEN-1)))
 
         valid = '1'
+    
+    # BEXT
+    elif instr == 0b0100100_101_0110011:
+        res = (rs1 >> (rs2 & (XLEN-1))) & 1
+
+        valid = '1'
+    
+    # BEXTI32
+    elif instr == 0b0100100_101_0010011:
+        res = (rs1 >> (0 & (XLEN-1))) & 1
+
+        valid = '1'
+
+    # BEXT64
+    elif instr == 0b010010_101_0010011:
+        res = (rs1 >> (0 & (XLEN-1))) & 1
+
+        valid = '1'
 
     # logic for all other instr ends
     else:
