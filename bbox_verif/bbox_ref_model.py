@@ -68,6 +68,21 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = res - (1 << XLEN)
         valid = '1'
 
+    # SHFT left 3 places and add
+    elif instr == 0b0010000_110_0110011:
+        tmp = (rs1 << 3)
+        if(int(bin((1 << (XLEN+2)) & tmp),2)):
+            tmp = tmp - (1 << (XLEN+2))
+        if(int(bin((1 << (XLEN+1)) & tmp),2)):
+            tmp = tmp - (1 << (XLEN+1))
+        if(int(bin((1 << XLEN) & tmp),2)):
+            tmp = tmp - (1 << XLEN)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
     # AND with inverted operand
     elif instr == 0b0100000_111_0110011:
         res = rs1 & ~rs2
