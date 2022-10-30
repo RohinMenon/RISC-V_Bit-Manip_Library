@@ -16,6 +16,7 @@ Note - if instr has single operand, take rs1 as an operand
 '''
 
 #Reference model
+import math
 def bbox_rm(instr, rs1, rs2, XLEN):
     
     # ADD unsigned word
@@ -137,6 +138,65 @@ def bbox_rm(instr, rs1, rs2, XLEN):
     # Zero Extend Halfword
     elif instr == 0b0000100_00000_100_0111011:
         res = int(bin(rs1)[-16:].zfill(XLEN),2)
+        valid = '1'
+    
+    # Rotate Left (Register)
+    elif instr == 0b0110000_001_0110011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-int(math.log2(XLEN)):],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+
+        res = int(rs1[shift:]+rs1[:shift],2)
+        valid = '1'
+    
+    # Rotate Left Word (Register)
+    elif instr == 0b0110000_001_0111011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-5:],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)[-32:]
+
+        res = rs1[shift:]+rs1[:shift]
+        res = int(res.rjust(XLEN,res[-32]),2)
+        valid = '1'
+    
+    # Rotate Right (Register)
+    elif instr == 0b0110000_101_0110011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-int(math.log2(XLEN)):],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+
+        res = int(rs1[-shift:]+rs1[:-shift],2)
+        valid = '1'
+
+    ### Assume that the immediate is passed as the LSB log(XLEN) bits of rs2 ###
+
+    # Rotate Right (Immediate)
+    elif instr == 0b0110000_101_0010011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-int(math.log2(XLEN)):],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)
+
+        res = int(rs1[-shift:]+rs1[:-shift],2)
+        valid = '1'
+
+    # Rotate Right Word (Immediate)
+    elif instr == 0b0110000_101_0011011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-5:],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)[-32:]
+
+        res = rs1[-shift:]+rs1[:-shift]
+        res = int(res.rjust(XLEN,res[-32]),2)
+        valid = '1'
+    
+    # Rotate Right Word (Register)
+    elif instr == 0b0110000_101_0111011:
+        rs2 = bin(rs2)[2:].zfill(XLEN)
+        shift = int(rs2[-5:],2)
+        rs1 = bin(rs1)[2:].zfill(XLEN)[-32:]
+
+        res = rs1[-shift:]+rs1[:-shift]
+        res = int(res.rjust(XLEN,res[-32]),2)
         valid = '1'
 
     # logic for all other instr ends
