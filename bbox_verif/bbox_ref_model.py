@@ -199,6 +199,17 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         rs2 = int(bin(((1 << XLEN) - 1) & rs2),2)
         res = min(rs1,rs2)
         valid = '1'
+    
+    # CLMUL
+    elif instr == 0b0000101_001_0110011:
+        tmp = 0
+        for ib in range(0,XLEN):
+            if(rs2 & int(bin((1 << ib)),2)):
+                tmp ^= (rs1 << ib)
+
+        res = tmp & int(bin((1 << XLEN)-1),2)
+
+        valid = '1'
 
     # logic for all other instr ends
     else:

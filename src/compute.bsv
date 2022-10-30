@@ -14,7 +14,7 @@ Details: The top function which calls the required function depending
 import bbox_types :: *;
 `include "Zba.bsv"
 `include "Zbb.bsv"
-//`include "Zbc.bsv"
+`include "Zbc.bsv"
 //`include "Zbs.bsv"
 /*********************/
 
@@ -136,6 +136,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
     `MINU: begin
       result = fn_minu(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `CLMUL: begin
+      result = fn_clmul(inp.rs1, inp.rs2);
       valid = True;
     end
 

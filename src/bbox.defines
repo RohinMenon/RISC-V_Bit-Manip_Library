@@ -36,3 +36,5 @@ Details: Has the macros used for instruction comparison
 `define MAXU 'b0000101_111_0110011
 `define MIN 'b0000101_100_0110011
 `define MINU 'b0000101_101_0110011
+
+`define CLMUL 'b0000101_001_0110011
