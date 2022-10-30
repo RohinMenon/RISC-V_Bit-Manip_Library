@@ -22,3 +22,8 @@ Details: Has the macros used for instruction comparison
 
 `define CPOP 'b0110000_00010_001_0010011
 `define CPOPW 'b0110000_00010_001_0011011
+
+`define MAX 'b0000101_110_0110011
+`define MAXU 'b0000101_111_0110011
+`define MIN 'b0000101_100_0110011
+`define MINU 'b0000101_101_0110011
