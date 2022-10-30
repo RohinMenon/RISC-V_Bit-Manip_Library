@@ -12,3 +12,8 @@ endfunction
 function Bit#(XLEN) fn_sh1adduw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return rs2 + (zeroExtend(rs1[31:0]) << 1);
 endfunction
+
+// SHFT left 2 places and add 1
+function Bit#(XLEN) fn_sh2add(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  return rs2 + (rs1 << 2);
+endfunction
