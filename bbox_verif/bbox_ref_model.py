@@ -22,8 +22,86 @@ def bbox_rm(instr, rs1, rs2, XLEN):
     # ADD unsigned word
     if instr == 0b0000100_000_0111011:
         res = rs2 + (rs1 & int(bin((1 << 32) - 1),2))
-        # Overflow condition
-        # res = int(bin(((1 << XLEN) - 1) & res),2)
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << 64)
+        valid = '1'
+    
+    # SHFT left and add
+    elif instr == 0b0010000_010_0110011:
+        tmp = (rs1 << 1)
+        if(int(bin((1 << XLEN) & tmp),2)):
+            tmp = tmp - (1 << XLEN)
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+    
+    # SHFT left uw and add
+    elif instr == 0b0010000_010_0111011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        tmp = (tmp << 1)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
+    # SHFT left 2 places and add
+    elif instr == 0b0010000_100_0110011:
+        tmp = (rs1 << 2)
+        if(int(bin((1 << (XLEN+1)) & tmp),2)):
+            tmp = tmp - (1 << (XLEN+1))
+        if(int(bin((1 << XLEN) & tmp),2)):
+            tmp = tmp - (1 << XLEN)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
+    # SHFT left 2 places uw and add
+    elif instr == 0b0010000_100_0111011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        tmp = (tmp << 2)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
+    # SHFT left 3 places and add
+    elif instr == 0b0010000_110_0110011:
+        tmp = (rs1 << 3)
+        if(int(bin((1 << (XLEN+2)) & tmp),2)):
+            tmp = tmp - (1 << (XLEN+2))
+        if(int(bin((1 << (XLEN+1)) & tmp),2)):
+            tmp = tmp - (1 << (XLEN+1))
+        if(int(bin((1 << XLEN) & tmp),2)):
+            tmp = tmp - (1 << XLEN)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+
+    # SHFT left 3 places uw and add
+    elif instr == 0b0010000_110_0111011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        tmp = (tmp << 3)
+
+        res = rs2 + tmp
+        if(int(bin((1 << XLEN) & res),2)):
+            res = res - (1 << XLEN)
+        valid = '1'
+    
+    # SHFT left shamt places uw
+    elif instr == 0b000010_001_0011011:
+        tmp = (rs1 & int(bin((1 << 32) - 1),2))
+        res = (tmp << 0)
+        
+        for ic in range(33,0):
+            if(int(bin((1 << ic) & res),2)):
+                res = res - (1 << ic)
         valid = '1'
 
     # AND with inverted operand
@@ -122,7 +200,7 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         rs2 = int(bin(((1 << XLEN) - 1) & rs2),2)
         res = min(rs1,rs2)
         valid = '1'
-    
+
     # Signed Extend Byte
     elif instr == 0b0110000_00100_001_0010011:
         sign = str((rs1 >> 7) & 1)
@@ -211,6 +289,112 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         rs1 = bin(rs1)[2:].zfill(XLEN)
         res = "".join(reversed([rs1[i:i+8] for i in range(0, len(rs1), 8)]))
         res = int(res,2)
+        valid = '1'
+    
+    
+    # CLMUL
+    elif instr == 0b0000101_001_0110011:
+        tmp = 0
+        for ib in range(0,XLEN):
+            if(rs2 & int(bin((1 << ib)),2)):
+                tmp ^= (rs1 << ib)
+
+        res = tmp & int(bin((1 << XLEN)-1),2)
+
+        valid = '1'
+    
+    # CLMULH
+    elif instr == 0b0000101_011_0110011:
+        tmp = 0
+        for ib in range(1,XLEN):
+            if(rs2 & int(bin((1 << ib)),2)):
+                tmp ^= (rs1 >> (XLEN-ib))
+
+        res = tmp
+
+        valid = '1'
+
+    # CLMULR
+    elif instr == 0b0000101_010_0110011:
+        tmp = 0
+        for ib in range(0,XLEN):
+            if(rs2 & int(bin((1 << ib)),2)):
+                tmp ^= (rs1 >> (XLEN-ib-1))
+
+        res = tmp
+
+        valid = '1'
+    
+    # BCLR
+    elif instr == 0b0100100_001_0110011:
+        res = rs1 & ~(1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BCLRI32
+    elif instr == 0b0100100_001_0010011:
+        res = rs1 & ~(1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
+    # BCLRI64
+    elif instr == 0b010010_001_0010011:
+        res = rs1 & ~(1 << (0 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BEXT
+    elif instr == 0b0100100_101_0110011:
+        res = (rs1 >> (rs2 & (XLEN-1))) & 1
+
+        valid = '1'
+    
+    # BEXTI32
+    elif instr == 0b0100100_101_0010011:
+        res = (rs1 >> (0 & (XLEN-1))) & 1
+
+        valid = '1'
+
+    # BEXT64
+    elif instr == 0b010010_101_0010011:
+        res = (rs1 >> (0 & (XLEN-1))) & 1
+
+        valid = '1'
+
+    # BINV
+    elif instr == 0b0110100_001_0110011:
+        res = rs1 ^ (1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BINVI32
+    elif instr == 0b0110100_001_0010011:
+        res = rs1 ^ (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
+    # BINVI64
+    elif instr == 0b011010_001_0010011:
+        res = rs1 ^ (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BSET
+    elif instr == 0b0010100_001_0110011:
+        res = rs1 | (1 << (rs2 & (XLEN-1)))
+
+        valid = '1'
+    
+    # BSETI32
+    elif instr == 0b0010100_001_0010011:
+        res = rs1 | (1 << (0 & (XLEN-1)))
+
+        valid = '1'
+
+    # BSETI64
+    elif instr == 0b001010_001_0010011:
+        res = rs1 | (1 << (0 & (XLEN-1)))
+
         valid = '1'
 
     # logic for all other instr ends
