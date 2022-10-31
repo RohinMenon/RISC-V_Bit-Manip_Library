@@ -139,6 +139,63 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `SEXTB: begin
+      result = fn_sextb(inp.rs1);
+      valid = True;
+    end
+
+    `SEXTH: begin
+      result = fn_sexth(inp.rs1);
+      valid = True;
+    end
+
+    `ZEXTH: begin
+      result = fn_zexth(inp.rs1);
+      valid = True;
+    end
+
+    `ROL: begin
+      result = fn_rol(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ROLW: begin
+      result = fn_rolw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ROR: begin
+      result = fn_ror(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORW: begin
+      result = fn_rorw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORI: begin
+      // result = fn_rori(inp.rs1, inp.rs2);
+      result = fn_ror(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORIW: begin
+      // result = fn_roriw(inp.rs1, inp.rs2);
+      result = fn_rorw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ORCB: begin
+      result = fn_orcb(inp.rs1);
+      valid = True;
+    end
+
+    `REV8: begin
+      result = fn_rev8(inp.rs1);
+      valid = True;
+    end
+    
     `CLMUL: begin
       result = fn_clmul(inp.rs1, inp.rs2);
       valid = True;
@@ -211,8 +268,6 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
     `BSETI64: begin
       result = fn_bseti64(inp.rs1, (inp.instr)[25:20]);
-      valid = True;
-    end
 
     default: begin
       result = 0;
