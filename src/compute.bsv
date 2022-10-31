@@ -14,8 +14,8 @@ Details: The top function which calls the required function depending
 import bbox_types :: *;
 `include "Zba.bsv"
 `include "Zbb.bsv"
-//`include "Zbc.bsv"
-//`include "Zbs.bsv"
+`include "Zbc.bsv"
+`include "Zbs.bsv"
 /*********************/
 
 
@@ -36,6 +36,41 @@ function BBoxOutput fn_compute(BBoxInput inp);
   case(inp.instr) matches
     `ADDUW: begin
       result = fn_adduw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH1ADD: begin
+      result = fn_sh1add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH1ADDUW: begin
+      result = fn_sh1adduw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH2ADD: begin
+      result = fn_sh2add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH2ADDUW: begin
+      result = fn_sh2adduw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH3ADD: begin
+      result = fn_sh3add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH3ADDUW: begin
+      result = fn_sh3adduw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SLLIUW: begin
+      result = fn_slliuw(inp.rs1, (inp.instr)[25:20]);
       valid = True;
     end
 
@@ -103,6 +138,136 @@ function BBoxOutput fn_compute(BBoxInput inp);
       result = fn_minu(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `SEXTB: begin
+      result = fn_sextb(inp.rs1);
+      valid = True;
+    end
+
+    `SEXTH: begin
+      result = fn_sexth(inp.rs1);
+      valid = True;
+    end
+
+    `ZEXTH: begin
+      result = fn_zexth(inp.rs1);
+      valid = True;
+    end
+
+    `ROL: begin
+      result = fn_rol(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ROLW: begin
+      result = fn_rolw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ROR: begin
+      result = fn_ror(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORW: begin
+      result = fn_rorw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORI: begin
+      // result = fn_rori(inp.rs1, inp.rs2);
+      result = fn_ror(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `RORIW: begin
+      // result = fn_roriw(inp.rs1, inp.rs2);
+      result = fn_rorw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ORCB: begin
+      result = fn_orcb(inp.rs1);
+      valid = True;
+    end
+
+    `REV8: begin
+      result = fn_rev8(inp.rs1);
+      valid = True;
+    end
+    
+    `CLMUL: begin
+      result = fn_clmul(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `CLMULH: begin
+      result = fn_clmulh(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `CLMULR: begin
+      result = fn_clmulr(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BCLR: begin
+      result = fn_bclr(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BCLRI32: begin
+      result = fn_bclri32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BCLRI64: begin
+      result = fn_bclri64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
+    `BEXT: begin
+      result = fn_bext(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BEXTI32: begin
+      result = fn_bexti32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BEXTI64: begin
+      result = fn_bexti64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
+    `BINV: begin
+      result = fn_binv(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BINVI32: begin
+      result = fn_binvi32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BINVI64: begin
+      result = fn_binvi64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
+
+    `BSET: begin
+      result = fn_bset(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BSETI32: begin
+      result = fn_bseti32(inp.rs1, (inp.instr)[24:20]);
+      valid = True;
+    end
+
+    `BSETI64: begin
+      result = fn_bseti64(inp.rs1, (inp.instr)[25:20]);
 
     default: begin
       result = 0;
