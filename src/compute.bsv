@@ -268,6 +268,8 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
     `BSETI64: begin
       result = fn_bseti64(inp.rs1, (inp.instr)[25:20]);
+      valid = True;
+    end
 
     default: begin
       result = 0;
